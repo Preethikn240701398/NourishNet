@@ -240,14 +240,6 @@ export default function LoginPage() {
             </form>
           )}
 
-          <div className="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 space-y-2">
-            <div>
-              Demo password for seeded accounts: <span className="font-semibold">password123</span>
-            </div>
-            <div>
-              Password reset flow is deferred in this sprint; use in-session password change under Profile after login.
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>
