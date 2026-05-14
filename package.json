@@ -8,7 +8,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "server": "node --no-warnings=ExperimentalWarning server/index.mjs",
-        "lint": "npm run test",
+        "lint": "echo \"No lint script configured\"",
         "test": "vitest run",
         "test:watch": "vitest"
     },
