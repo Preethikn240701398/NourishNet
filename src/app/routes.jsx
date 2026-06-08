@@ -2,6 +2,7 @@ import { jsx as _jsx } from "react/jsx-runtime";
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router';
 import { PublicOnly, RequireAuth, RequireRole } from './components/RouteGuards';
+const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL;
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RoleSelectionPage = lazy(() => import('./pages/RoleSelectionPage'));
 const DonorDashboardPage = lazy(() => import('./pages/DonorDashboardPage'));
@@ -113,4 +114,6 @@ export const router = createBrowserRouter([
         path: '/profile',
         Component: ProtectedProfile,
     },
-]);
+], {
+    basename: routerBasename,
+});

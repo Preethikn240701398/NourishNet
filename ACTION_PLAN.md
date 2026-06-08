@@ -25,7 +25,7 @@ This plan is intentionally forward-looking. Completed items were removed so this
 
 Goal: make the existing flow consistently correct under real usage conditions.
 
-### 1. [In Progress] Complete map and routing realism
+### 1. [Done] Complete map and routing realism
 
 Tasks:
 - Validate live geocoding behavior end-to-end with real network access and capture fallback frequency.
@@ -38,7 +38,7 @@ Done when:
 - Distance/ETA values are reproducible and no longer synthetic.
 - Users see actionable messaging when map/geocoding services fail.
 
-### 2. [Pending] Harden workflow invariants across backend + UI
+### 2. [Done] Harden workflow invariants across backend + UI
 
 Tasks:
 - Add server-side idempotency protection for accept/pickup/deliver endpoints.
@@ -56,20 +56,11 @@ Goal: move from local-demo auth to safer production-ready foundations.
 
 ### 3. [Done] Strengthen authentication and session security
 
-Completed:
-- Replaced legacy SHA-256 password handling with salted `scrypt` password hashes for new credentials.
-- Added legacy-password compatibility and automatic on-login rehash migration to avoid breaking existing local users.
-- Added session expiry and lifecycle controls:
-  - TTL-based expiry
-  - max session lifetime cap
-  - rolling `lastUsedAt` updates with bounded extension
-  - login-time session rotation and prior-session invalidation
-  - explicit logout token invalidation
-- Added brute-force protections on login:
-  - per-IP+email attempt tracking window
-  - lockout after repeated failures
-  - `Retry-After` support on lock responses
-- Added role/permission audit guardrails for mutating workflow endpoints and enforced centralized role checks.
+Tasks:
+- Replace SHA-256 password hashing with a modern password hash (e.g., bcrypt/argon2).
+- Add session expiry/rotation and explicit invalidation rules.
+- Add brute-force protections (login attempt throttling / rate limiting).
+- Add role and permission checks audit for every mutating endpoint.
 
 Done when:
 - Credentials and session handling follow modern security expectations.
@@ -77,15 +68,11 @@ Done when:
 
 ### 4. [Done] Add signup and account lifecycle management
 
-Completed:
-- Implemented `POST /api/auth/signup` with role/email/password validation, duplicate-email protection, and immediate session issuance.
-- Implemented `POST /api/auth/change-password` with current-password verification, password policy checks, and full session invalidation after update.
-- Added role-aware profile completeness rules and enforced them in both signup and `PATCH /api/me`.
-- Added backend + frontend onboarding coverage:
-  - backend API tests against a temporary SQLite test DB (`server/account-lifecycle.test.mjs`)
-  - frontend AppState integration tests for signup + password change (`src/app/state/AppState.integration.test.jsx`)
-  - frontend API client tests for account lifecycle error handling (`src/app/lib/api.account-lifecycle.test.js`)
-- Password reset flow is explicitly deferred and documented in the login/profile UX until reset-token/email infrastructure is added.
+Tasks:
+- Implement user signup with validation and duplicate-account protection.
+- Add password change/reset flow design (or document deferred scope explicitly).
+- Add profile completeness rules by role (donor/NGO/volunteer).
+- Add backend + frontend tests for account onboarding edge cases.
 
 Done when:
 - New users can self-onboard without manual DB seeding.
@@ -180,4 +167,3 @@ Done when:
 1. Complete item 1 (map/geocoding realism) and item 2 (workflow idempotency/concurrency).
 2. Start item 7 with backend API tests for auth + donation transitions.
 3. Land CI pipeline from item 8 to enforce test/build gates.
-
